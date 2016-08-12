@@ -59,7 +59,7 @@ the same terms as the Perl 5 programming language system itself.
 my %api_methods = (
   champion => 1.2,
   #championmaster => undef,
-  #current_game => 1.0,
+  current_game => 1.0,
   #featured_games => 1.0,
   game => 1.3,
   league => 2.5,
@@ -92,7 +92,7 @@ has ua => (
 
 has api_url => (
   is => 'lazy',
-  default => sub { 'https://' . $_[0]->region . '.api.pvp.net/api/lol/' },
+  default => sub { 'https://' . $_[0]->region . '.api.pvp.net' },
 );
 
 has timeout => (
@@ -106,6 +106,17 @@ has json => (
   isa => InstanceOf['JSON'],
   is => 'lazy',
   handles => [ qw(decode) ],
+);
+
+has debug => (
+  is => 'rw',
+  isa => Int,
+  lazy => 1,
+  default => sub { 0 },
+);
+
+my %region2platform = (
+  na => 'NA1'
 );
 
 sub _build_ua {
@@ -123,19 +134,26 @@ sub _request {
   (my $api_method = $method) =~ s/_/-/g;
 
   my $api_url = $self->api_url;
+  if ($method eq 'current_game') {
+    $api_url .= '/observer-mode/rest/consumer/getSpectatorGameInfo/' . $region2platform{$self->region};
+  } else {
+    $api_url .= '/api/lol/';
+  }
   if ($method eq 'static_data') {
     $api_method = delete $args{type};
     $api_url .= 'static-data/';
   }
 
-  $api_url .= $self->region . '/v' . $api_methods{$method} .'/' . $api_method;
+  $api_url .= $self->region . '/v' . $api_methods{$method} .'/' . $api_method unless $method eq 'current_game';
   $api_url .= '/by-' . delete $args{by} if exists $args{by};
   $api_url .= '/' . delete $args{id} if exists $args{id};
   $api_url .= '/' . delete $args{type} if exists $args{type};
 
   my $uri = URI->new($api_url);
   $uri->query_form(api_key => $self->api_key, %args);
-warn $uri->as_string;
+
+  warn $uri->as_string if $self->debug;
+
   my $req = HTTP::Request->new('GET', $uri->as_string);
   my $response = $self->request( $req );
   return $response->is_success ? $self->decode($response->content) : $response->status_line;
