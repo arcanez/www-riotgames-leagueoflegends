@@ -116,7 +116,18 @@ has debug => (
 );
 
 my %region2platform = (
-  na => 'NA1'
+  na   => { id => 'NA1',  domain => 'spectator.na.lol.riotgames.com',   port => 80 },
+  euw  => { id => 'EUW1', domain => 'spectator.euw1.lol.riotgames.com', port => 80 },
+  eune => { id => 'EUN1', domain => 'spectator.eu.lol.riotgames.com',   port => 8088 },
+  jp   => { id => 'JP1',  domain => 'spectator.jp1.lol.riotgames.com',  port => 80 },
+  kr   => { id => 'KR',   domain => 'spectator.kr.lol.riotgames.com',   port => 80 },
+  oce  => { id => 'OC1',  domain => 'spectator.oc1.lol.riotgames.com',  port => 80 },
+  br   => { id => 'BR1',  domain => 'spectator.br.lol.riotgames.com',   port => 80 },
+  lan  => { id => 'LA1',  domain => 'spectator.la1.lol.riotgames.com',  port => 80 },
+  las  => { id => 'LA2',  domain => 'spectator.la2.lol.riotgames.com',  port => 80 },
+  ru   => { id => 'RU',   domain => 'spectator.ru.lol.riotgames.com',   port => 80 },
+  tr   => { id => 'TR1',  domain => 'spectator.tr.lol.riotgames.com',   port => 80 },
+  pbe  => { id => 'PBE1', domain => 'spectator.pbe1.lol.riotgames.com', port => 8088 },
 );
 
 sub _build_ua {
@@ -135,7 +146,7 @@ sub _request {
 
   my $api_url = $self->api_url;
   if ($method eq 'current_game') {
-    $api_url .= '/observer-mode/rest/consumer/getSpectatorGameInfo/' . $region2platform{$self->region};
+    $api_url .= '/observer-mode/rest/consumer/getSpectatorGameInfo/' . $region2platform{$self->region}{id};
   } else {
     $api_url .= '/api/lol/';
   }
