@@ -9,7 +9,7 @@ WriteMakefile(
   ABSTRACT_FROM => 'lib/WWW/RiotGames/LeagueOfLegends.pm',
   VERSION_FROM => 'lib/WWW/RiotGames/LeagueOfLegends.pm',
   LICENSE => 'perl',
-  MIN_PERL_VERSION => '5.008001',
+  MIN_PERL_VERSION => '5.14.0',
   PREREQ_PM => {
     JSON              => 0,
     LWP               => 0,
