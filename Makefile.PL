@@ -17,6 +17,7 @@ WriteMakefile(
     URI               => 0,
     'Sub::Name'       => 0,
     'Types::Standard' => 0,
+    'Function::Parameters' => 0,
   },
   BUILD_REQUIRES => {
     'Test::More' => '0.88',
