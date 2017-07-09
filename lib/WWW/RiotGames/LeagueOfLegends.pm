@@ -250,7 +250,7 @@ method spectator( Int :$summoner_id = 0 ) {
   $self->_request( $url );
 }
 
-method summoner( Int :$account_id = 0, Int :$summoner_id = 0, Str :$summoner_name ) {
+method summoner( Int :$account_id = 0, Int :$summoner_id = 0, Str :$summoner_name = '' ) {
   # /lol/summoner/v3/summoners/by-account/{accountId}
   # /lol/summoner/v3/summoners/by-name/{summonerName}
   # /lol/summoner/v3/summoners/{summonerId}
