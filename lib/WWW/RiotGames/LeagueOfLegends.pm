@@ -226,7 +226,7 @@ method match( Int :$match_id = 0, Str :$type = 'matches', Int :$account_id = 0, 
   } elsif ( $type eq 'matchlists' ) {
     $url = $recent ? 
       sprintf '%s/lol/match/v%d/%s/by-account/%d/recent', $self->api_url, 3, $type, $account_id :
-      sprintf '%s/lol/match/v%d/%s/by-account/%d', $self->api_url, 3, $type;
+      sprintf '%s/lol/match/v%d/%s/by-account/%d', $self->api_url, 3, $type, $account_id;
   } elsif ( $type eq 'timelines' ) {
     $url = sprintf '%s/lol/match/v%d/%s/by-match/%d', $self->api_url, 3, $type, $match_id;
   }
@@ -246,7 +246,7 @@ method spectator( Int :$summoner_id = 0 ) {
 
   my $url = $summoner_id ?
     sprintf '%s/lol/spectator/v%d/active-games/by-summoner/%d', $self->api_url, 3, $summoner_id :
-    sprintf '%s/lol/spectator/v%d/featured-games';
+    sprintf '%s/lol/spectator/v%d/featured-games', $self->api_url, 3;
   $self->_request( $url );
 }
 
