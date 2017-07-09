@@ -22,13 +22,12 @@ WWW::RiotGames::LeagueOfLegends - Perl wrapper around the Riot Games League of L
   use warnings;
   use aliased 'WWW::RiotGames::LeagueOfLegends' => 'LoL';
 
-  my $lol = LoL->new(api_key => $api_key);
+  my $lol = LoL->new( api_key => $api_key );
   # defaults ( region => 'na', timeout => 5 )
 
-  my $champions = $lol->champion;
-  my $champion_static_data = $lol->static_data(type => 'champion', id => 1, dataById => 0);
-  my $summoner = $lol->summoner(by => 'name', id => 'summonername'));
-  my $stats = $lol->stats(by => 'summoner', id => $summoner_id, type => 'ranked'));
+  my $champions = $lol->champions;
+  my $champion_static_data = $lol->static_data( type => 'champions', id => 1 );
+  my $summoner = $lol->summoner( summoner_name => 'Bob' );
 
 =head1 DESCRIPTION
 
@@ -37,11 +36,11 @@ WWW::RiotGames::LeagueOfLegends is a simple Perl wrapper around the Riot Games L
 It is as simple as creating a new WWW::RiotGames::LeagueOfLegends object and calling ->method
 Each key/value pair becomes part of a query string, for example:
 
-  $lol->static_data(type => 'champion', id => 1, dataById => 1);
+  $lol->static_data( type => 'champions', id => 1 );
 
 results in the query string
 
-  https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion/1?dataById=1
+  https://na1.api.riotgames.com/lol/static-data/v3/champions/1
   # api_key is added on
 
 =head1 AUTHOR
@@ -50,7 +49,7 @@ Justin Hunter <justin.d.hunter@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2016 by Justin Hunter
+This software is copyright (c) 2017 by Justin Hunter
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
