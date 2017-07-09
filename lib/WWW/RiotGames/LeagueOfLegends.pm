@@ -212,6 +212,8 @@ method match( Int :$match_id = 0, Str :$type = 'matches', Int :$account_id = 0, 
   # /lol/match/v3/matches/by-tournament-code/{tournamentCode}/ids
   # /lol/match/v3/matches/{matchId}/by-tournament-code/{tournamentCode}
 
+  $type = 'matchlists' if $account_id;
+
   my $url;
   if ( $type eq 'matches' ) {
     if ( $match_id ) {
