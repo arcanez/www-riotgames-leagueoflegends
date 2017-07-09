@@ -96,7 +96,14 @@ has json => (
 
 has debug => (
   is => 'rw',
-  isa => Int,
+  isa => Bool,
+  lazy => 1,
+  default => sub { 0 },
+);
+
+has _testing => (
+  is => 'rw',
+  isa => Bool,
   lazy => 1,
   default => sub { 0 },
 );
@@ -261,6 +268,7 @@ method _request( Str $url ) {
   my $uri = URI->new( $url );
   $uri->query_form( api_key => $self->api_key );
   warn $uri->as_string if $self->debug;
+  return $uri->as_string if $self->_testing;
 
   my $req = HTTP::Request->new('GET', $uri->as_string);
   my $response = $self->request( $req );
